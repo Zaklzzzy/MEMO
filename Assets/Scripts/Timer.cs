@@ -8,6 +8,9 @@ public class Timer : MonoBehaviour
     [Header("Timer")]
     [SerializeField] private TextMeshProUGUI _timerText;
     [SerializeField] private float _gameDuration;
+    [Header("Lose")]
+    [SerializeField] private GameObject _loseText;
+    [SerializeField] private GameObject _menuButton;
 
     private float _timeRemaining;
 
@@ -28,7 +31,9 @@ public class Timer : MonoBehaviour
 
             if (_timeRemaining <= 0)
             {
-                SceneManager.LoadScene("StartMenu");
+                _menuButton.SetActive(false);
+                _loseText.SetActive(true);
+                Invoke("Lose", 1.25f);
             }
         }
     }
@@ -38,4 +43,10 @@ public class Timer : MonoBehaviour
         int seconds = Mathf.FloorToInt(timeRemaining % 60);
         _timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
+
+    private void Lose()
+    {
+        SceneManager.LoadScene("StartMenu");
+    }
+
 }
